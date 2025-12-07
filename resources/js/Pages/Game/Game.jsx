@@ -4,9 +4,15 @@ import React, { useState } from 'react'
 const MAP_WIDTH = 800;
 const MAP_HEIGHT = 400;
 
+const locations = [
+  { lat:51.5, lon:-0.1 },
+]
+
 const Game = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [markerLocation, setMarkerLocation] = useState(null);
+  const [latLon, setLatLon] = useState({});
+  const [error, setError] = useState('');
 
   const handleMouseEnter = (e) => {
     setIsHovered(true)
@@ -31,11 +37,54 @@ const Game = () => {
   }
 
   const handleClick = (e) => {
+    setError('');
+
     const rect = e.target.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
     setMarkerLocation({ x, y });
+
+    const { lat, lon } = calculateLatLon(x, y);
+    setLatLon({ lat, lon });
+  }
+
+  const calculateLatLon = (x, y) => {
+    const lat = 90 - (y/MAP_HEIGHT) * 180;
+    const lon = (x/MAP_WIDTH) * 360 - 180;
+    return { lat, lon };
+  }
+
+  const handleGuess = () => {
+    if (!markerLocation) {
+      setError('Please place a marker before guessing!');
+      return;
+    }
+
+    calculateDistance();
+  }
+
+  const calculateDistance = () => {
+    const { lat:lat1, lon:lon1 } = latLon;
+    const { lat:lat2, lon:lon2 } = locations[0];
+
+    const R = 6371;
+    const deltaLat = Math.PI / 180 * (lat2 - lat1);
+    const deltaLon = Math.PI / 180 * (lon2 - lon1);
+
+    const a = 
+      Math.sin(deltaLat / 2) ** 2 +
+      Math.cos(Math.PI / 180 * lat1) *
+      Math.cos(Math.PI / 180 * lat2) *
+      Math.sin(deltaLon / 2) ** 2;
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c;
+    console.log('distance: ', distance);
+
+    const score = Math.round(5000 * Math.exp(-distance / 2000));
+    console.log('score: ', score);
   }
 
   return (
@@ -72,6 +121,24 @@ const Game = () => {
             ></div>           
           )}
         </div>
+      </div>
+      
+      <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 m-5 flex flex-col'>
+        <button 
+          className='w-30 py-2 border-3 rounded-xl font-bold text-xl hover:cursor-pointer mx-auto'
+          style={markerLocation ? {
+            backgroundColor: 'rgb(82, 176, 68)',
+            color: 'white',
+            borderColor: 'rgb(188, 255, 178)',
+          } : {
+            backgroundColor: 'rgb(66, 66, 66)',
+            color: 'rgb(153, 153, 153)',
+            borderColor: 'rgb(153, 153, 153)',
+          }}
+          onClick={handleGuess}
+        >Guess</button>
+
+        {error && <p className='font-bold text-red-500'>{error}</p>}
       </div>
 
     </div>
