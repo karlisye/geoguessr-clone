@@ -6,13 +6,36 @@ const MAP_HEIGHT = 400;
 
 const Game = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [markerLocation, setMarkerLocation] = useState(null);
 
   const handleMouseEnter = (e) => {
     setIsHovered(true)
+
+    if (markerLocation) {
+      const x = markerLocation.x * 2;
+      const y = markerLocation.y * 2;
+
+      setMarkerLocation({ x, y});
+    }
   }
 
   const handleMouseLeave = (e) => {
     setIsHovered(false)
+
+    if (markerLocation) {
+      const x = markerLocation.x / 2;
+      const y = markerLocation.y / 2;
+
+      setMarkerLocation({ x, y});
+    }
+  }
+
+  const handleClick = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    setMarkerLocation({ x, y });
   }
 
   return (
@@ -22,17 +45,35 @@ const Game = () => {
       <img className='absolute w-screen h-screen object-cover' src="images/location1.png" />
 
       <div className='absolute border-2 bottom-0 right-0 m-5'>
-        <img 
-          className='transition-discrete transition-all duration-300'
-          src="images/maps/map1.png"
+        <div 
+          className='relative h-full transition-discrete transition-all duration-300'
           style={{
             width: isHovered ? MAP_WIDTH : MAP_WIDTH / 2,
             height: isHovered ? MAP_HEIGHT : MAP_HEIGHT / 2,
           }}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        />
+        >
+          <img 
+            className='absolute'
+            src="images/maps/map1.png"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
+          />
+
+          {markerLocation && (
+            <div 
+              className='border-3 border-red-500 absolute rounded-full pointer-events-none transition-discrete transition-all duration-300'
+              style={{
+                width: '20px',
+                height: '20px',
+                left: markerLocation.x - 10,
+                top: markerLocation.y - 10,
+              }}
+            ></div>           
+          )}
+        </div>
       </div>
+
     </div>
   )
 }
