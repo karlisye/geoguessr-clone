@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, router, useForm, usePage } from '@inertiajs/react';
 import React, { useState } from 'react'
 
 const MAP_WIDTH = 800;
@@ -13,6 +13,8 @@ const Game = () => {
   const [markerLocation, setMarkerLocation] = useState(null);
   const [latLon, setLatLon] = useState({});
   const [error, setError] = useState('');
+
+  const { user } = usePage().props.auth;
 
   const handleMouseEnter = (e) => {
     setIsHovered(true)
@@ -55,7 +57,9 @@ const Game = () => {
     return { lat, lon };
   }
 
-  const handleGuess = () => {
+  const handleGuess = (e) => {
+    e.preventDefault();
+
     if (!markerLocation) {
       setError('Please place a marker before guessing!');
       return;
@@ -85,6 +89,12 @@ const Game = () => {
 
     const score = Math.round(5000 * Math.exp(-distance / 2000));
     console.log('score: ', score);
+
+    router.post('/scores/store', {
+        user_id: user.id,
+        distance: distance,
+        score: score
+    });
   }
 
   return (
@@ -123,7 +133,7 @@ const Game = () => {
         </div>
       </div>
       
-      <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 m-5 flex flex-col'>
+      <form method='post' onSubmit={handleGuess} className='absolute bottom-0 left-1/2 transform -translate-x-1/2 m-5 flex flex-col'>
         <button 
           className='w-30 py-2 border-3 rounded-xl font-bold text-xl hover:cursor-pointer mx-auto'
           style={markerLocation ? {
@@ -135,11 +145,10 @@ const Game = () => {
             color: 'rgb(153, 153, 153)',
             borderColor: 'rgb(153, 153, 153)',
           }}
-          onClick={handleGuess}
         >Guess</button>
 
         {error && <p className='font-bold text-red-500'>{error}</p>}
-      </div>
+      </form>
 
     </div>
   )

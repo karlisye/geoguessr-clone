@@ -11,7 +11,8 @@ class ScoreController extends Controller
     public function store (Request $request) {
         $incomingFields = $request->validate([
             'user_id' => ['required'],
-            'score' => ['required']
+            'score' => ['required'],
+            'distance' => ['required'],
         ]);
 
         Score::create($incomingFields);

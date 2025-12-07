@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->float('score');
+            $table->float('distance');
             $table->timestamps();
         });
     }
