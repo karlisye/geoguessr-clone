@@ -13,6 +13,7 @@ const Game = ({ locations }) => {
   const [error, setError] = useState('');
   const [locationIndex, setLocationIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [isGuessing, setIsGuessing] = useState(true);
 
   const { user } = usePage().props.auth;
 
@@ -66,18 +67,17 @@ const Game = ({ locations }) => {
     }
 
     calculateDistance();
-
-    setMarkerLocation(null);
     
-    if (locations[locationIndex + 1]) {
-      setLocationIndex(() => locationIndex + 1);
-    } else {
-      
-      router.post('/scores/store', {
-        user_id: user.id,
-        score: score
-      });
-    }
+    const { x, y } = calculateXY(latLon);
+    setMarkerLocation({ x, y })
+    setIsGuessing(false);
+  }
+
+  const calculateXY = ({ lat, lon }) => {
+    const x = ((lon + 180) / 360) * window.innerWidth;
+    const y = ((90 - lat) / 180) * window.innerHeight;
+
+    return { x, y };
   }
 
   const calculateDistance = () => {
@@ -104,61 +104,96 @@ const Game = ({ locations }) => {
 
     setScore(() => score + roundScore);
 
-    
+
+  }
+
+  const nextLocation = () => {
+    if (locations[locationIndex + 1]) {
+      setLocationIndex(() => locationIndex + 1);
+      setIsGuessing(true);
+      setMarkerLocation(null);
+    } else {
+      router.post('/scores/store', {
+        user_id: user.id,
+        score: score
+      });
+    }
   }
 
   return (
     <div className='h-screen relative w-screen object-cover'>
       <Link className='py-2 px-6 font-bold text-lg border-2 border-red-300 bg-red-500 rounded-xl absolute m-5 left-0 top-0 text-white z-10' href='/'>Stop</Link>
-      
-      <img className='absolute w-screen h-screen object-cover' src={`images/${locations[locationIndex].url}`} />
+      {isGuessing ? (
+        <>
+        
+        <img className='absolute w-screen h-screen object-cover' src={`images/${locations[locationIndex].url}`} />
 
-      <div className='absolute border-2 bottom-0 right-0 m-5'>
-        <div 
-          className='relative h-full transition-discrete transition-all duration-300'
-          style={{
-            width: isHovered ? MAP_WIDTH : MAP_WIDTH / 2,
-            height: isHovered ? MAP_HEIGHT : MAP_HEIGHT / 2,
-          }}
-        >
-          <img 
-            className='absolute'
-            src="images/maps/map1.png"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
-          />
+        <div className='absolute border-2 bottom-0 right-0 m-5'>
+          <div 
+            className='relative h-full transition-discrete transition-all duration-300'
+            style={{
+              width: isHovered ? MAP_WIDTH : MAP_WIDTH / 2,
+              height: isHovered ? MAP_HEIGHT : MAP_HEIGHT / 2,
+            }}
+          >
+            <img 
+              className='absolute'
+              src="images/maps/map1.png"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onClick={handleClick}
+            />
 
-          {markerLocation && (
-            <div 
-              className='border-3 border-red-500 absolute rounded-full pointer-events-none transition-discrete transition-all duration-300'
-              style={{
-                width: '20px',
-                height: '20px',
-                left: markerLocation.x - 10,
-                top: markerLocation.y - 10,
-              }}
-            ></div>           
-          )}
+            {markerLocation && (
+              <div 
+                className='border-3 border-red-500 absolute rounded-full pointer-events-none transition-discrete transition-all duration-300'
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  left: markerLocation.x - 10,
+                  top: markerLocation.y - 10,
+                }}
+              ></div>           
+            )}
+          </div>
         </div>
-      </div>
-      
-      <form method='post' onSubmit={handleGuess} className='absolute bottom-0 left-1/2 transform -translate-x-1/2 m-5 flex flex-col'>
-        <button 
-          className='w-30 py-2 border-3 rounded-xl font-bold text-xl hover:cursor-pointer mx-auto'
-          style={markerLocation ? {
-            backgroundColor: 'rgb(82, 176, 68)',
-            color: 'white',
-            borderColor: 'rgb(188, 255, 178)',
-          } : {
-            backgroundColor: 'rgb(66, 66, 66)',
-            color: 'rgb(153, 153, 153)',
-            borderColor: 'rgb(153, 153, 153)',
-          }}
-        >Guess</button>
+        
+        <form method='post' onSubmit={handleGuess} className='absolute bottom-0 left-1/2 transform -translate-x-1/2 m-5 flex flex-col'>
+          <button 
+            className='w-30 py-2 border-3 rounded-xl font-bold text-xl hover:cursor-pointer mx-auto'
+            style={markerLocation ? {
+              backgroundColor: 'rgb(82, 176, 68)',
+              color: 'white',
+              borderColor: 'rgb(188, 255, 178)',
+            } : {
+              backgroundColor: 'rgb(66, 66, 66)',
+              color: 'rgb(153, 153, 153)',
+              borderColor: 'rgb(153, 153, 153)',
+            }}
+          >Guess</button>
 
-        {error && <p className='font-bold text-red-500'>{error}</p>}
-      </form>
+          {error && <p className='font-bold text-red-500'>{error}</p>}
+        </form>
+        </>
+      ) : (
+        <>
+          <img className='absolute w-full h-auto' src={`images/maps/map1.png`} />
+          <div 
+            className='border-3 border-red-500 absolute rounded-full pointer-events-none transition-discrete transition-all duration-300'
+            style={{
+              width: '20px',
+              height: '20px',
+              left: markerLocation.x - 10,
+              top: markerLocation.y - 10,
+            }}
+          ></div> 
+
+          <button onClick={nextLocation} className='absolute bottom-0 left-1/2 transform -translate-x-1/2 w-30 py-2 border-3 rounded-xl font-bold text-xl hover:cursor-pointer mx-auto m-5 bg-green-500 border-green-300 text-white'>
+            Next
+          </button>
+        </>
+      )}
+
 
     </div>
   )
