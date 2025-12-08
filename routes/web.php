@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\UserController;
+use App\Models\Location;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,7 +15,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/scores/store', [ScoreController::class, 'store']);
     Route::get('/play', function () {
-        return Inertia::render('Game/Game');
+        $locations = Location::all();
+        return Inertia::render('Game/Game', ['locations' => $locations]);
     });
 });
 

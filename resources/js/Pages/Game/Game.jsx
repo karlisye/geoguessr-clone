@@ -4,15 +4,15 @@ import React, { useState } from 'react'
 const MAP_WIDTH = 800;
 const MAP_HEIGHT = 400;
 
-const locations = [
-  { lat:51.5, lon:-0.1 },
-]
+const Game = ({ locations }) => {
+  console.log(locations)
 
-const Game = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [markerLocation, setMarkerLocation] = useState(null);
   const [latLon, setLatLon] = useState({});
   const [error, setError] = useState('');
+  const [locationIndex, setLocationIndex] = useState(0);
+  const [score, setScore] = useState(0);
 
   const { user } = usePage().props.auth;
 
@@ -66,11 +66,23 @@ const Game = () => {
     }
 
     calculateDistance();
+
+    setMarkerLocation(null);
+    
+    if (locations[locationIndex + 1]) {
+      setLocationIndex(() => locationIndex + 1);
+    } else {
+      
+      router.post('/scores/store', {
+        user_id: user.id,
+        score: score
+      });
+    }
   }
 
   const calculateDistance = () => {
     const { lat:lat1, lon:lon1 } = latLon;
-    const { lat:lat2, lon:lon2 } = locations[0];
+    const { lat:lat2, lon:lon2 } = locations[locationIndex];
 
     const R = 6371;
     const deltaLat = Math.PI / 180 * (lat2 - lat1);
@@ -87,21 +99,19 @@ const Game = () => {
     const distance = R * c;
     console.log('distance: ', distance);
 
-    const score = Math.round(5000 * Math.exp(-distance / 2000));
-    console.log('score: ', score);
+    const roundScore = Math.round(5000 * Math.exp(-distance / 2000));
+    console.log('score: ', roundScore);
 
-    router.post('/scores/store', {
-        user_id: user.id,
-        distance: distance,
-        score: score
-    });
+    setScore(() => score + roundScore);
+
+    
   }
 
   return (
     <div className='h-screen relative w-screen object-cover'>
       <Link className='py-2 px-6 font-bold text-lg border-2 border-red-300 bg-red-500 rounded-xl absolute m-5 left-0 top-0 text-white z-10' href='/'>Stop</Link>
       
-      <img className='absolute w-screen h-screen object-cover' src="images/location1.png" />
+      <img className='absolute w-screen h-screen object-cover' src={`images/${locations[locationIndex].url}`} />
 
       <div className='absolute border-2 bottom-0 right-0 m-5'>
         <div 

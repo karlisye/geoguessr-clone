@@ -12,10 +12,11 @@ class ScoreController extends Controller
         $incomingFields = $request->validate([
             'user_id' => ['required'],
             'score' => ['required'],
-            'distance' => ['required'],
         ]);
 
         Score::create($incomingFields);
+
+        return redirect('/scores');
     }
 
     public function index () {

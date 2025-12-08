@@ -9,7 +9,6 @@ class Score extends Model
     protected $fillable = [
         'user_id',
         'score',
-        'distance'
     ];
 
     public function user() {
