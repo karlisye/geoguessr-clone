@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Leaderboard = ({ scores }) => {
-  console.log(scores)
   return (
     <>
         <div>

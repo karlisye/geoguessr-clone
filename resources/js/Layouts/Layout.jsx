@@ -4,7 +4,6 @@ import React from 'react'
 const Layout = ({children}) => {
     const { post } = useForm();
     const { user } = usePage().props.auth
-    console.log(user)
   return (
     <>
         <header>

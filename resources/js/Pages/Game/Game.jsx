@@ -5,8 +5,6 @@ const MAP_WIDTH = 800;
 const MAP_HEIGHT = 400;
 
 const Game = ({ locations }) => {
-  console.log(locations)
-
   const [isHovered, setIsHovered] = useState(false);
   const [markerLocation, setMarkerLocation] = useState(null);
   const [realLocation, setRealLocation] = useState(null);
@@ -100,11 +98,11 @@ const Game = ({ locations }) => {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     const distance = R * c;
-    console.log('distance: ', distance);
+    // console.log('distance: ', distance);
     setDistance(distance);
 
     const roundScore = Math.round(5000 * Math.exp(-distance / 2000));
-    console.log('score: ', roundScore);
+    // console.log('score: ', roundScore);
 
     setScore(() => score + roundScore);
   }
