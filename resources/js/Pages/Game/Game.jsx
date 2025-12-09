@@ -9,10 +9,12 @@ const Game = ({ locations }) => {
 
   const [isHovered, setIsHovered] = useState(false);
   const [markerLocation, setMarkerLocation] = useState(null);
+  const [realLocation, setRealLocation] = useState(null);
   const [latLon, setLatLon] = useState({});
   const [error, setError] = useState('');
   const [locationIndex, setLocationIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [distance, setDistance] = useState(0);
   const [isGuessing, setIsGuessing] = useState(true);
 
   const { user } = usePage().props.auth;
@@ -68,14 +70,15 @@ const Game = ({ locations }) => {
 
     calculateDistance();
     
-    const { x, y } = calculateXY(latLon);
-    setMarkerLocation({ x, y })
+    setMarkerLocation(() => calculateXY(latLon));
+    setRealLocation(() => calculateXY(locations[locationIndex]));
+
     setIsGuessing(false);
   }
 
   const calculateXY = ({ lat, lon }) => {
-    const x = ((lon + 180) / 360) * window.innerWidth;
-    const y = ((90 - lat) / 180) * window.innerHeight;
+    const x = ((lon + 180) / 360) * 1800;
+    const y = ((90 - lat) / 180) * 900;
 
     return { x, y };
   }
@@ -98,13 +101,12 @@ const Game = ({ locations }) => {
 
     const distance = R * c;
     console.log('distance: ', distance);
+    setDistance(distance);
 
     const roundScore = Math.round(5000 * Math.exp(-distance / 2000));
     console.log('score: ', roundScore);
 
     setScore(() => score + roundScore);
-
-
   }
 
   const nextLocation = () => {
@@ -177,16 +179,42 @@ const Game = ({ locations }) => {
         </>
       ) : (
         <>
-          <img className='absolute w-full h-auto' src={`images/maps/map1.png`} />
-          <div 
-            className='border-3 border-red-500 absolute rounded-full pointer-events-none transition-discrete transition-all duration-300'
-            style={{
-              width: '20px',
-              height: '20px',
-              left: markerLocation.x - 10,
-              top: markerLocation.y - 10,
-            }}
-          ></div> 
+        <div className='absolute w-full h-auto'>
+          <div className='relative min-w-[1800px] w-[1800px] h-auto mx-auto'>
+            <img className='absolute min-w-[1800px] w-[1800px] h-auto' src={`images/maps/map1.png`} />
+            <div 
+              className='border-3 border-red-500 absolute rounded-full pointer-events-none transition-discrete transition-all duration-300'
+              style={{
+                width: '20px',
+                height: '20px',
+                left: markerLocation.x - 10,
+                top: markerLocation.y - 10,
+              }}
+            ></div>
+
+            <div 
+              className='border-3 border-green-500 absolute rounded-full pointer-events-none transition-discrete transition-all duration-300'
+              style={{
+                width: '20px',
+                height: '20px',
+                left: realLocation.x - 10,
+                top: realLocation.y - 10,
+              }}
+            ></div>
+
+            <div
+              className='absolute pointer-events-none border-2 border-dashed border-red-500'
+              style={{
+                left: markerLocation.x,
+                top: markerLocation.y,
+                width: Math.sqrt(Math.pow(realLocation.x - markerLocation.x, 2) + Math.pow(realLocation.y - markerLocation.y, 2)),
+                height: 2,
+                transformOrigin: 'left center',
+                transform: `rotate(${Math.atan2(realLocation.y - markerLocation.y, realLocation.x - markerLocation.x)}rad)`,
+              }}
+            ></div>
+          </div>
+        </div>
 
           <button onClick={nextLocation} className='absolute bottom-0 left-1/2 transform -translate-x-1/2 w-30 py-2 border-3 rounded-xl font-bold text-xl hover:cursor-pointer mx-auto m-5 bg-green-500 border-green-300 text-white'>
             Next
