@@ -1,36 +1,48 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Marker from './Marker'
 import { useGame } from '../../../contexts/GameContext'
+import { calculateXY } from '../services/mapCalculations';
 
 const ResultMap = () => {
-  const { markerLocation, realLocation } = useGame();
+  const { markerLocation, realLocation, setRealLocation, locations, locationIndex } = useGame();
+  useEffect(() => {
+    const { x, y } = calculateXY(locations[locationIndex]);
+    const percentX = x / screen.width * 100;
+    const percentY = y / (screen.width/2) * 100;
+
+    setRealLocation({ percentX, percentY});
+  },[]);
   return (
-    <div className='absolute w-full h-auto'>
-      <div className='relative min-w-[1800px] w-[1800px] h-auto mx-auto'>
-        <img className='absolute min-w-[1800px] w-[1800px] h-auto' src={`images/maps/map1.png`} />
-        <Marker
-          location={markerLocation}
-          color='red'
-        />
+    <>
+    {realLocation ? (
+      <>
+      <img className='absolute w-full h-auto' src={`images/maps/map1.png`} />
+      <Marker
+        location={markerLocation}
+        color='red'
+      />
 
-        <Marker 
-          location={realLocation}
-          color='green'
-        />
+      <Marker 
+        location={realLocation}
+        color='green'
+      />
 
-        <div
-          className='absolute pointer-events-none border-2 border-dashed border-red-500'
-          style={{
-            left: markerLocation.x,
-            top: markerLocation.y,
-            width: Math.sqrt(Math.pow(realLocation.x - markerLocation.x, 2) + Math.pow(realLocation.y - markerLocation.y, 2)),
-            height: 2,
-            transformOrigin: 'left center',
-            transform: `rotate(${Math.atan2(realLocation.y - markerLocation.y, realLocation.x - markerLocation.x)}rad)`,
-          }}
-        ></div>
-      </div>
-    </div>
+      <div
+        className='absolute pointer-events-none border-2 border-dashed border-red-500'
+        style={{
+          left: `${markerLocation.percentX}%`,
+          top: `${markerLocation.percentY}%`,
+          width: Math.sqrt(Math.pow(realLocation.percentX - markerLocation.percentX, 2) + Math.pow(realLocation.percentY - markerLocation.percentY, 2)),
+          height: 2,
+          transformOrigin: 'left center',
+          transform: `rotate(${Math.atan2(realLocation.percentY - markerLocation.percentY, realLocation.percentX - markerLocation.percentX)}rad)`,
+        }}
+      ></div>
+      </>
+      ) : (
+        <p>Loading</p>
+      )}
+      </>
   )
 }
 

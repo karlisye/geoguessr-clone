@@ -2,31 +2,27 @@ import React, { useState } from 'react'
 import { MAP_WIDTH, MAP_HEIGHT } from '../constants/maps';
 import Marker from './Marker';
 import { useGame } from '../../../contexts/GameContext';
+import { calculateLatLon } from '../services/mapCalculations';
 
 const MiniMap = () => {
-  const { markerLocation, setMarkerLocation, handleClick } = useGame();
+  const { markerLocation, setMarkerLocation, setError, setLatLon } = useGame();
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseEnter = (e) => {
-    setIsHovered(true)
+  const handleClick = (e) => {
+    setError('');
 
-    if (markerLocation) {
-      const x = markerLocation.x * 2;
-      const y = markerLocation.y * 2;
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-      setMarkerLocation({ x, y});
-    }
-  }
+    const percentX = x / rect.width * 100;
+    const percentY = y / rect.height * 100;
+    console.log(percentX, percentY)
 
-  const handleMouseLeave = (e) => {
-    setIsHovered(false)
+    setMarkerLocation({ percentX, percentY });
 
-    if (markerLocation) {
-      const x = markerLocation.x / 2;
-      const y = markerLocation.y / 2;
-
-      setMarkerLocation({ x, y});
-    }
+    const { lat, lon } = calculateLatLon(x, y);
+    setLatLon({ lat, lon });
   }
   
   return (
@@ -41,8 +37,8 @@ const MiniMap = () => {
         <img 
           className='absolute'
           src="images/maps/map1.png"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           onClick={handleClick}
         />
 

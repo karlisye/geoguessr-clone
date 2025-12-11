@@ -2,7 +2,7 @@ import { Link, router, usePage } from '@inertiajs/react';
 import React, { useState } from 'react'
 import GuessView from './views/GuessView';
 import ResultView from './views/ResultView';
-import { calculateDistance, calculateLatLon, calculateXY } from './services/mapCalculations';
+import { calculateDistance, calculateXY } from './services/mapCalculations';
 import { GameContext } from '../../contexts/GameContext';
 
 const Game = ({ locations }) => {
@@ -16,19 +16,6 @@ const Game = ({ locations }) => {
   const [distance, setDistance] = useState(0);
 
   const { user } = usePage().props.auth;
-
-  const handleClick = (e) => {
-    setError('');
-
-    const rect = e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    setMarkerLocation({ x, y });
-
-    const { lat, lon } = calculateLatLon(x, y);
-    setLatLon({ lat, lon });
-  }
 
   const handleGuess = (e) => {
     e.preventDefault();
@@ -44,8 +31,10 @@ const Game = ({ locations }) => {
     });
     setDistance(calculateDistance(latLon, locations[locationIndex]).distance);
     
-    setMarkerLocation(() => calculateXY(latLon));
-    setRealLocation(() => calculateXY(locations[locationIndex]));
+    const { x, y } = calculateXY(latLon);
+    const percentX = x / screen.width * 100;
+    const percentY = y / (screen.width / 2) * 100;
+    setMarkerLocation({ percentX, percentY });
 
     setIsGuessing(false);
   }
@@ -78,9 +67,8 @@ const Game = ({ locations }) => {
     isGuessing,
     setIsGuessing,
     distance,
+    setError,
 
-    
-    handleClick,
     handleGuess,
     nextLocation,
   };
