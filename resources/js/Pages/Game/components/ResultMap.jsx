@@ -7,16 +7,17 @@ const ResultMap = () => {
   const { markerLocation, realLocation, setRealLocation, locations, locationIndex } = useGame();
   useEffect(() => {
     const { x, y } = calculateXY(locations[locationIndex]);
-    const percentX = x / screen.width * 100;
-    const percentY = y / (screen.width/2) * 100;
-
-    setRealLocation({ percentX, percentY});
+    const percentX = x / window.innerWidth * 100;
+    const percentY = y / window.innerHeight * 100;
+    console.log(percentY)
+    
+    setRealLocation({ percentX, percentY });
   },[]);
   return (
     <>
     {realLocation ? (
       <>
-      <img className='absolute w-full h-auto' src={`images/maps/map1.png`} />
+      <img className='absolute' src={`images/maps/map1.png`} />
       <Marker
         location={markerLocation}
         color='red'
@@ -27,7 +28,7 @@ const ResultMap = () => {
         color='green'
       />
 
-      <div
+      {/* <div
         className='absolute pointer-events-none border-2 border-dashed border-red-500'
         style={{
           left: `${markerLocation.percentX}%`,
@@ -37,7 +38,7 @@ const ResultMap = () => {
           transformOrigin: 'left center',
           transform: `rotate(${Math.atan2(realLocation.percentY - markerLocation.percentY, realLocation.percentX - markerLocation.percentX)}rad)`,
         }}
-      ></div>
+      ></div> */}
       </>
       ) : (
         <p>Loading</p>

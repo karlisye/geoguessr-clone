@@ -32,8 +32,8 @@ const Game = ({ locations }) => {
     setDistance(calculateDistance(latLon, locations[locationIndex]).distance);
     
     const { x, y } = calculateXY(latLon);
-    const percentX = x / screen.width * 100;
-    const percentY = y / (screen.width / 2) * 100;
+    const percentX = x / window.innerWidth * 100;
+    const percentY = y / window.innerHeight * 100;
     setMarkerLocation({ percentX, percentY });
 
     setIsGuessing(false);
@@ -75,7 +75,7 @@ const Game = ({ locations }) => {
 
   return (
     <GameContext.Provider value={contextValue}>
-      <div className='h-screen relative w-screen object-cover'>
+      <div className='h-screen relative'>
         <Link className='py-2 px-6 font-bold text-lg border-2 border-red-300 bg-red-500 rounded-xl fixed m-5 left-0 top-0 text-white z-10' href='/'>Stop</Link>
         {isGuessing ? (
           <GuessView />

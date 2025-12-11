@@ -7,8 +7,8 @@ export const calculateLatLon = (x, y) => {
   }
 
 export const calculateXY = ({ lat, lon }) => {
-  const x = ((lon + 180) / 360) * 1800;
-  const y = ((90 - lat) / 180) * 900;
+  const x = ((lon + 180) / 360) * window.innerWidth;
+  const y = ((90 - lat) / 180) * window.innerWidth / 2;
 
   return { x, y };
 }
