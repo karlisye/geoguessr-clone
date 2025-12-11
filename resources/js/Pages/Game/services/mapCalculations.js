@@ -33,5 +33,5 @@ export const calculateDistance = (latLon, location) => {
 
   const roundScore = Math.round(5000 * Math.exp(-distance / 2000));
 
-  return roundScore;
+  return { roundScore, distance };
 }

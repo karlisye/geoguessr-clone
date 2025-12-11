@@ -13,6 +13,7 @@ const Game = ({ locations }) => {
   const [locationIndex, setLocationIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [isGuessing, setIsGuessing] = useState(true);
+  const [distance, setDistance] = useState(0);
 
   const { user } = usePage().props.auth;
 
@@ -37,7 +38,11 @@ const Game = ({ locations }) => {
       return;
     }
 
-    setScore(prev => prev + calculateDistance(latLon, locations[locationIndex]));
+    setScore(prev => {
+      const { roundScore } = calculateDistance(latLon, locations[locationIndex]);
+      return prev + roundScore;
+    });
+    setDistance(calculateDistance(latLon, locations[locationIndex]).distance);
     
     setMarkerLocation(() => calculateXY(latLon));
     setRealLocation(() => calculateXY(locations[locationIndex]));
@@ -72,6 +77,7 @@ const Game = ({ locations }) => {
     setScore,
     isGuessing,
     setIsGuessing,
+    distance,
 
     
     handleClick,
@@ -82,7 +88,7 @@ const Game = ({ locations }) => {
   return (
     <GameContext.Provider value={contextValue}>
       <div className='h-screen relative w-screen object-cover'>
-        <Link className='py-2 px-6 font-bold text-lg border-2 border-red-300 bg-red-500 rounded-xl absolute m-5 left-0 top-0 text-white z-10' href='/'>Stop</Link>
+        <Link className='py-2 px-6 font-bold text-lg border-2 border-red-300 bg-red-500 rounded-xl fixed m-5 left-0 top-0 text-white z-10' href='/'>Stop</Link>
         {isGuessing ? (
           <GuessView />
         ) : (
