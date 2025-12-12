@@ -34,7 +34,7 @@ const Game = ({ locations }) => {
     const { x, y } = calculateXY(latLon);
     const percentX = x / window.innerWidth * 100;
     const percentY = y / window.innerHeight * 100;
-    setMarkerLocation({ percentX, percentY });
+    setMarkerLocation({ percentX, percentY, x, y });
 
     setIsGuessing(false);
   }
