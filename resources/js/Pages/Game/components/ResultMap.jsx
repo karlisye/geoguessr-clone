@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Marker from './Marker'
 import { useGame } from '../../../contexts/GameContext'
 import { calculateXY } from '../services/mapCalculations';
+import Line from './Line';
 
 const ResultMap = () => {
   const { markerLocation, setMarkerLocation, realLocation, setRealLocation, locations, locationIndex, latLon } = useGame();
@@ -11,7 +12,6 @@ const ResultMap = () => {
   useEffect(() => {
     setImgWidth(window.innerWidth);
     setImgHeight(window.innerWidth / 2);
-    console.log(markerLocation)
   },[]);
 
   useEffect(() => {
@@ -36,28 +36,13 @@ const ResultMap = () => {
           height: imgHeight
         }}
       >
-      <img className='absolute w-full' src={`images/maps/map1.png`} />
-      <Marker
-        location={markerLocation}
-        color='red'
-      />
+        <img className='absolute w-full' src={`images/maps/map1.png`} />
 
-      <Marker 
-        location={realLocation}
-        color='green'
-      />
+        <Marker location={markerLocation} color='red' />
 
-      {/* <div
-        className='absolute pointer-events-none border-2 border-dashed border-red-500'
-        style={{
-          left: `${markerLocation.percentX}%`,
-          top: `${markerLocation.percentY}%`,
-          width: Math.sqrt(Math.pow(realLocation.x - markerLocation.x, 2) + Math.pow(realLocation.y - markerLocation.y, 2)),
-          height: 2,
-          transformOrigin: 'left center',
-          transform: `rotate(${Math.atan2(realLocation.y - markerLocation.y, realLocation.x - markerLocation.x)}rad)`,
-        }}
-      ></div> */}
+        <Marker location={realLocation} color='green' />
+
+        <Line start={markerLocation} end={realLocation} />
       </div>
       ) : (
         <p>Loading</p>

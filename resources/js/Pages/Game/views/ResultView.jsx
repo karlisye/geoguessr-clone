@@ -26,7 +26,7 @@ const ResultView = () => {
               <p>Total score: {score} pts</p>
             </div>
           ) : (
-            <p className='text-md font-bold'>See Statistics</p>
+            <p className='text-md font-bold'>Show more</p>
           )}
         </button>
       </div>

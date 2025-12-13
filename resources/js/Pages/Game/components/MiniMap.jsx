@@ -17,7 +17,6 @@ const MiniMap = () => {
 
     const percentX = x / rect.width * 100;
     const percentY = y / rect.height * 100;
-    console.log(percentX, percentY)
 
     setMarkerLocation({ percentX, percentY });
 

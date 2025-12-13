@@ -2,7 +2,7 @@ import { Link, router, usePage } from '@inertiajs/react';
 import React, { useState } from 'react'
 import GuessView from './views/GuessView';
 import ResultView from './views/ResultView';
-import { calculateDistance, calculateXY } from './services/mapCalculations';
+import { calculateDistance } from './services/mapCalculations';
 import { GameContext } from '../../contexts/GameContext';
 
 const Game = ({ locations }) => {

@@ -6,7 +6,7 @@ const GuessButton = () => {
   return (
     <form method='post' onSubmit={handleGuess} className='absolute bottom-0 left-1/2 transform -translate-x-1/2 m-5 flex flex-col'>
       <button 
-        className='w-30 py-2 border-3 rounded-xl font-bold text-xl hover:cursor-pointer mx-auto'
+        className='px-4 py-2 border-3 rounded-xl font-bold text-xl hover:cursor-pointer mx-auto'
         style={markerLocation ? {
           backgroundColor: 'rgb(82, 176, 68)',
           color: 'white',
