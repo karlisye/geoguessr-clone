@@ -30,11 +30,6 @@ const Game = ({ locations }) => {
       return prev + roundScore;
     });
     setDistance(calculateDistance(latLon, locations[locationIndex]).distance);
-    
-    const { x, y } = calculateXY(latLon);
-    const percentX = x / window.innerWidth * 100;
-    const percentY = y / window.innerHeight * 100;
-    setMarkerLocation({ percentX, percentY, x, y });
 
     setIsGuessing(false);
   }

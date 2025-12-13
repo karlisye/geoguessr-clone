@@ -3,15 +3,12 @@ import ResultMap from '../components/ResultMap'
 import { useGame } from '../../../contexts/GameContext'
 
 const ResultView = () => {
-  const {markerLocation, realLocation, nextLocation, locationIndex, locations, distance, score } = useGame();
+  const { nextLocation, locationIndex, locations, distance, score } = useGame();
 
   const [isClicked, setIsClicked] = useState(false);
   return (
     <>
-      <ResultMap
-        markerLocation={markerLocation}
-        realLocation={realLocation}
-      />
+      <ResultMap />
 
       <div className='fixed bottom-0 left-1/2 transform -translate-x-1/2 flex flex-col items-center'>
         <button onClick={nextLocation} className='w-30 py-2 border-3 rounded-xl font-bold text-xl hover:cursor-pointer bg-green-500 border-green-300 text-white'>
