@@ -19,8 +19,14 @@ class ScoreController extends Controller
         return redirect('/scores');
     }
 
-    public function index () {
-        $scores = Score::with('user')->orderBy('score', 'desc')->paginate(10);
+    public function index (Request $request) {
+        $incomingFields = $request->validate([
+            'sort_by' => ['nullable'],
+            'sort' => ['nullable']
+        ]);
+
+        $scores = Score::with('user')->orderBy($incomingFields['sort_by'] ?? 'score', $incomingFields['sort'] ?? 'desc')->paginate(10);
+
         return Inertia::render('Leaderboard', ['scores' => $scores]);
     }
 }
