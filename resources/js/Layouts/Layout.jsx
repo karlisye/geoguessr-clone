@@ -8,27 +8,22 @@ const Layout = ({ children }) => {
   return (
     <>
       <header>
-        <nav className='p-2 py-4 bg-slate-900 text-white shadow-lg flex gap-4 items-center text-xl font-extrabold px-4 italic'>
+        <nav className='p-2 py-4 bg-slate-900 text-white shadow-lg flex gap-4 items-center text-sm font-extrabold px-4 italic'>
           <Link className='flex gap-1 items-center' href='/'>
             <img className='h-8' src="https://www.geoguessr.com/_next/static/media/logo-without-tm.0a5d1adf.svg" />
-            <span className='not-italic text-red-500'>Clone</span>
+            <span className='not-italic text-red-500 text-xl'>Clone</span>
           </Link>
 
           {user ? (
             <>
-              <Link href='/play'>Play</Link>
+              <Link className='text-xs text-white font-bold bg-linear-to-b from-green-500 to-green-800 py-1 px-4 rounded-full italic hover:cursor-pointer hover:scale-105' href='/play'>PLAY NOW</Link>
 
               <form className='ml-auto' onSubmit={(e) => {e.preventDefault(); post('/logout')}}>
-                <button>Log out</button>
+                <button className='text-white font-bold bg-gray-600 py-1 px-4 rounded-full italic hover:cursor-pointer hover:scale-105'>Log out</button>
               </form>
             </>
           ) : (
-            <>
-              <div className='ml-auto flex gap-2'>
-                <Link href='/login'>Log in</Link>
-                <Link href='/register'>Register</Link>
-              </div>
-            </>
+            <Link className='text-xs text-white font-bold bg-gray-600 py-1 px-4 rounded-full italic hover:cursor-pointer hover:scale-105 ml-auto' href='/login'>Log in</Link>
           )}
         </nav>
       </header>
