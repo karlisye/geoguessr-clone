@@ -40,7 +40,7 @@ const Leaderboard = ({ scores }) => {
 
         <table className='w-full text-left border-separate border-spacing-y-2 table-fixed'>
           <thead>
-            <tr className='bg-slate-200'>
+            <tr className='bg-slate-200 shadow-sm rounded-md'>
               <th className='p-2 rounded-l-lg'>Name</th>
               <th className='p-2'>Score</th>
               <th className='p-2 rounded-r-lg'>Time</th>
@@ -49,7 +49,7 @@ const Leaderboard = ({ scores }) => {
 
           <tbody>
             {scores.data.map((score) => (
-              <tr className='bg-slate-200' key={score.id}>
+              <tr className='bg-slate-200 shadow-sm rounded-md' key={score.id}>
                 <td className='p-2 rounded-l-lg'>{score.user.name}</td>
                 <td className='p-2'>{score.score}pts</td>
                 <td className='p-2 rounded-r-lg'>{new Date(score.created_at).toLocaleString()}</td>

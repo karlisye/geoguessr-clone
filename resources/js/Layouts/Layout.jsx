@@ -8,21 +8,26 @@ const Layout = ({ children }) => {
   return (
     <>
       <header>
-        <nav className='p-2 bg-slate-100 shadow-lg flex gap-2'>
-          <Link href='/'>Home</Link>
+        <nav className='p-2 bg-blue-950 text-white shadow-lg flex gap-4 items-center text-xl font-extrabold px-4 italic'>
+          <Link className='flex gap-1 items-center' href='/'>
+            <img className='h-8' src="https://www.geoguessr.com/_next/static/media/logo-without-tm.0a5d1adf.svg" />
+            <span className='not-italic text-red-500'>Clone</span>
+          </Link>
 
           {user ? (
             <>
-              <form onSubmit={(e) => {e.preventDefault(); post('/logout')}}>
+              <Link href='/play'>Play</Link>
+
+              <form className='ml-auto' onSubmit={(e) => {e.preventDefault(); post('/logout')}}>
                 <button>Log out</button>
               </form>
-
-              <Link href='/play'>Play</Link>
             </>
           ) : (
             <>
-              <Link href='/login'>Log in</Link>
-              <Link href='/register'>Register</Link>
+              <div className='ml-auto flex gap-2'>
+                <Link href='/login'>Log in</Link>
+                <Link href='/register'>Register</Link>
+              </div>
             </>
           )}
         </nav>
