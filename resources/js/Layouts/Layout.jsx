@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <header>
-        <nav className='p-2 bg-blue-950 text-white shadow-lg flex gap-4 items-center text-xl font-extrabold px-4 italic'>
+        <nav className='p-2 py-4 bg-slate-900 text-white shadow-lg flex gap-4 items-center text-xl font-extrabold px-4 italic'>
           <Link className='flex gap-1 items-center' href='/'>
             <img className='h-8' src="https://www.geoguessr.com/_next/static/media/logo-without-tm.0a5d1adf.svg" />
             <span className='not-italic text-red-500'>Clone</span>
@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
         </nav>
       </header>
 
-      <main>
+      <main className='h-screen bg-indigo-950 text-white'>
         {children}
       </main>
     </>
