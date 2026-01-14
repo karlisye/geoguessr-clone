@@ -22,7 +22,7 @@ const Leaderboard = ({ scores }) => {
   return (
     <>
     {scores ? (
-      <div className='m-4'>
+      <div className='p-4'>
         <div className='flex justify-end gap-2'>
           <label className='text-slate-400' htmlFor="sortBy">Sort by</label>
 
@@ -40,7 +40,7 @@ const Leaderboard = ({ scores }) => {
 
         <table className='w-full text-left border-separate border-spacing-y-2 table-fixed'>
           <thead>
-            <tr className='bg-slate-200 shadow-sm rounded-md'>
+            <tr className='bg-indigo-500/50 shadow-sm rounded-md'>
               <th className='p-2 rounded-l-lg'>Name</th>
               <th className='p-2'>Score</th>
               <th className='p-2 rounded-r-lg'>Time</th>
@@ -49,10 +49,18 @@ const Leaderboard = ({ scores }) => {
 
           <tbody>
             {scores.data.map((score) => (
-              <tr className='bg-slate-200 shadow-sm rounded-md' key={score.id}>
+              <tr className='bg-indigo-400/50 shadow-sm rounded-md' key={score.id}>
                 <td className='p-2 rounded-l-lg'>{score.user.name}</td>
-                <td className='p-2'>{score.score}pts</td>
-                <td className='p-2 rounded-r-lg'>{new Date(score.created_at).toLocaleString()}</td>
+                <td className='p-2'>{score.score.toFixed()}pts</td>
+                <td className='p-2 rounded-r-lg'>{new Date(score.created_at).toLocaleDateString([], {
+                  weekday: 'long',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric'
+                })} {new Date(score.created_at).toLocaleTimeString('en-US', {
+                  hour: 'numeric',
+                  minute: 'numeric'
+                })}</td>
               </tr>
             ))}
           </tbody>
