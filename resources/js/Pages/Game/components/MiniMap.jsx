@@ -49,6 +49,11 @@ const MiniMap = () => {
     setTimeout(() => setIsDragging(false), 0);
   }
 
+  const reset = () => {
+    setScale(1); 
+    setOffset({ x:0, y:0 });
+  }
+
   return (
     <div 
       className='fixed bottom-0 right-0 m-2 bg-gray-100 rounded-md overflow-hidden z-10'
@@ -65,6 +70,7 @@ const MiniMap = () => {
         onMouseDown={startDrag}
         onMouseUp={stopDrag}
         onMouseMove={move}
+        onMouseLeave={reset}
       >
         <div
           className='absolute left-0 right-0 bottom-0 top-0'
@@ -81,7 +87,7 @@ const MiniMap = () => {
       <div className='fixed bottom-0 right-0 m-4 flex gap-1'>
         <button className='bg-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition' onClick={() => setScale(prev => Math.min(prev+0.2, 5))}>+</button>
         <button className='bg-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition' onClick={() => setScale(prev => Math.max(prev-0.2, 1))}>-</button>
-        <button className='bg-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition' onClick={() => {setScale(1); setOffset({ x:0, y:0 })}}>Reset</button>
+        <button className='bg-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition' onClick={reset}>Reset</button>
       </div>
     </div>
   )
