@@ -31,7 +31,7 @@ const Login = () => {
 
         <div className='flex flex-col text-white font-bold gap-0.5'>
           <label className='italic text-sm' htmlFor="password">Password</label>
-          <input className='bg-indigo-950 p-2 rounded-md' value={data.password} type="text" id='password' onChange={(e) => setData('password', e.target.value)} />
+          <input className='bg-indigo-950 p-2 rounded-md' value={data.password} type="password" id='password' onChange={(e) => setData('password', e.target.value)} />
           {errors.password && <p className='text-red-500'>{errors.password}</p>}
         </div>
 
