@@ -1,5 +1,5 @@
 import { Link, useForm } from '@inertiajs/react'
-import React from 'react'
+import React, { useState } from 'react'
 
 const Register = () => {
   const { data, errors, post, setData } = useForm({
@@ -9,8 +9,52 @@ const Register = () => {
     password_confirmation:''
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
+
+  const validate = () => {
+    let newErrors = {};
+    let valid = true;
+
+    if (!data.name.trim()) {
+      newErrors.name = 'Name is required';
+      valid = false;
+    } else if (data.name.length < 3) {
+      newErrors.name = 'Name must be at least 3 characters';
+      valid = false;
+    }
+
+    if (!data.email) {
+      newErrors.email = 'Email is required';
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      newErrors.email = 'Please enter a valid email address';
+      valid = false;
+    }
+
+    if (!data.password) {
+      newErrors.password = 'Password is required';
+      valid = false;
+    } else if (data.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
+      valid = false;
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(data.password)) {
+      newErrors.password = 'Password must contain uppercase, lowercase, a number, and a symbol';
+      valid = false;
+    }
+
+    if (!data.password_confirmation) {
+      newErrors.password_confirmation = 'Please confirm your password';
+      valid = false;
+    }
+
+    setValidationErrors(newErrors);
+    return valid;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!validate()) return;
 
     post('/register');
   }
@@ -37,24 +81,25 @@ const Register = () => {
           <div className='flex flex-col text-white font-bold gap-0.5'>
             <label className='italic text-sm' htmlFor="name">Name</label>
             <input className='bg-indigo-950 p-2 rounded-md' value={data.name} type="text" id='name' onChange={(e) => setData('name', e.target.value)} />
-            {errors.name && <p className='text-red-500'>{errors.name}</p>}
+            {(validationErrors.name || errors.name) && <p className='text-red-500'>{validationErrors.name || errors.name}</p>}
           </div>
 
           <div className='flex flex-col text-white font-bold gap-0.5'>
             <label className='italic text-sm' htmlFor="email">Email</label>
             <input className='bg-indigo-950 p-2 rounded-md' value={data.email} type="text" id='email' onChange={(e) => setData('email', e.target.value)} />
-            {errors.email && <p className='text-red-500'>{errors.email}</p>}
+            {(validationErrors.email || errors.email) && <p className='text-red-500'>{validationErrors.email || errors.email}</p>}
           </div>
 
           <div className='flex flex-col text-white font-bold gap-0.5'>
             <label className='italic text-sm' htmlFor="password">Password</label>
             <input className='bg-indigo-950 p-2 rounded-md' value={data.password} type="password" id='password' onChange={(e) => setData('password', e.target.value)} />
-            {errors.password && <p className='text-red-500'>{errors.password}</p>}
+            {(validationErrors.password || errors.password) && <p className='text-red-500'>{validationErrors.password || errors.password}</p>}
           </div>
 
           <div className='flex flex-col text-white font-bold gap-0.5'>
             <label className='italic text-sm' htmlFor="confirm_password">Confirm password</label>
             <input className='bg-indigo-950 p-2 rounded-md' value={data.password_confirmation} type="password" id='confirm_password' onChange={(e) => setData('password_confirmation', e.target.value)} />
+            {validationErrors.password_confirmation && <p className='text-red-500'>{validationErrors.password_confirmation}</p>}
           </div>
 
           <div className='flex justify-center'>
