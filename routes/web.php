@@ -21,3 +21,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/play', [GameController::class, 'show']);
     Route::post('/score', [ScoreController::class, 'store']);
 });
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
+});
