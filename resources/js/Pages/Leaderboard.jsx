@@ -1,9 +1,19 @@
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import React, { useState } from 'react'
+import Modal from '../Components/Modal';
 
-const Leaderboard = ({ scores }) => {
+const Leaderboard = ({ scores, users }) => {
   const [sortBy, setSortBy] = useState('score');
   const [sort, setSort] = useState('desc');
+  const [isActive, setIsActive] = useState(false);
+  const [selectedScore, setSelectedScore] = useState({});
+
+  const user = usePage().props.auth.user;
+
+  const handleShowMore = (score) => {
+    setIsActive(true);
+    setSelectedScore(score);
+  }
 
   const updateSort = (sort_by, sort) => {
     router.get('/scores', { sort_by, sort }, { preserveState:true });
@@ -22,6 +32,7 @@ const Leaderboard = ({ scores }) => {
   return (
     <>
     {scores ? (
+      <>
       <div className='p-4'>
         <div className='flex justify-end gap-2'>
           <label className='text-slate-400' htmlFor="sortBy">Sort by</label>
@@ -43,7 +54,10 @@ const Leaderboard = ({ scores }) => {
             <tr className='bg-indigo-500/50 shadow-sm rounded-md'>
               <th className='p-2 rounded-l-lg'>Name</th>
               <th className='p-2'>Score</th>
-              <th className='p-2 rounded-r-lg'>Time</th>
+              <th className={`p-2 ${user.role === "admin" ? '' : 'rounded-r-lg'}`}>Time</th>
+              {user.role === "admin" && (
+                <th className='p-2 rounded-r-lg'>Action</th>
+              )}
             </tr>
           </thead>
 
@@ -52,7 +66,7 @@ const Leaderboard = ({ scores }) => {
               <tr className='bg-indigo-400/50 shadow-sm rounded-md' key={score.id}>
                 <td className='p-2 rounded-l-lg'>{score.user.name}</td>
                 <td className='p-2'>{score.score.toFixed()}pts</td>
-                <td className='p-2 rounded-r-lg'>{new Date(score.created_at).toLocaleDateString([], {
+                <td className={`p-2 ${user.role === "admin" ? '' : 'rounded-r-lg'}`}>{new Date(score.created_at).toLocaleDateString([], {
                   weekday: 'long',
                   month: 'short',
                   day: 'numeric',
@@ -61,12 +75,24 @@ const Leaderboard = ({ scores }) => {
                   hour: 'numeric',
                   minute: 'numeric'
                 })}</td>
+                {user.role === "admin" && (
+                  <td className='p-2 rounded-r-lg'>
+                    <button 
+                      className='bg-indigo-800/50 py-1 px-4 rounded-md'
+                      onClick={() => handleShowMore(score)}
+                    >
+                      Show more
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
+      {isActive && <Modal setIsActive={setIsActive} score={selectedScore} users={users} />}
+      </>
     ) : (
       <p>Loading...</p>
     )}

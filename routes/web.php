@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -23,5 +24,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-
+    Route::patch('/scores/update/{id}', [ScoreController::class, 'update']);
+    Route::delete('/scores/{id}', [ScoreController::class, 'destroy']);
 });

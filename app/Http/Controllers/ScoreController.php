@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Score;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -25,9 +26,32 @@ class ScoreController extends Controller
             'sort_by' => ['nullable'],
             'sort' => ['nullable']
         ]);
-
+        
+        $users = User::all();
         $scores = Score::with('user')->orderBy($incomingFields['sort_by'] ?? 'score', $incomingFields['sort'] ?? 'desc')->paginate(10);
 
-        return Inertia::render('Leaderboard', ['scores' => $scores]);
+        return Inertia::render('Leaderboard', ['scores' => $scores, 'users' => $users]);
+    }
+
+    public function update (Request $request, $id)
+    {
+        $incomingFields = $request->validate([
+            "user_id" => ["required", "exists:users,id"],
+            "score" => ["required", "numeric", "min:0"],
+            "created_at" => ["required", "date"]
+        ]);
+
+        $score = Score::findOrFail($id);
+        $score->update($incomingFields);
+
+        return redirect()->back();
+    }
+
+    public function destroy (Request $request, $id)
+    {
+        $score = Score::findOrFail($id);
+        $score->delete();
+
+        return redirect()->back();
     }
 }
