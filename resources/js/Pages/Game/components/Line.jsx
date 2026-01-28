@@ -2,7 +2,7 @@ import React from 'react'
 
 const Line = ({ start, end }) => {
   const deltaX = end.xPerc - start.xPerc;
-  const deltaY = (end.yPerc - start.yPerc) * 0.5; //height will always be 2x smaller then width
+  const deltaY = (end.yPerc - start.yPerc) * 0.5;
 
   const length = Math.sqrt(deltaX ** 2 + deltaY ** 2);
   const angle = Math.atan2(deltaY, deltaX);
