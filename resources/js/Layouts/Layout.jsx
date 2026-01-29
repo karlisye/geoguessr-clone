@@ -34,7 +34,7 @@ const Layout = ({ children }) => {
                   onMouseLeave={() => setIsActive(false)}
                 >
                   <Link className='py-2 px-4 hover:bg-gray-800 w-full text-left'>PROFILE</Link>
-                  <Link className='py-2 px-4 hover:bg-gray-800 w-full text-left'>HISTORY</Link>
+                  <Link className='py-2 px-4 hover:bg-gray-800 w-full text-left' href={`/scores/${user.id}`}>HISTORY</Link>
 
                   <div className='w-full border border-gray-600'></div>
 
