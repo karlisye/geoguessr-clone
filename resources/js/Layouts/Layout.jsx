@@ -5,6 +5,10 @@ const Layout = ({ children }) => {
   const user = usePage().props.auth.user;
   const { post } = useForm();
 
+  const activateMenu = () => {
+
+  }
+
   return (
     <>
       <header>
@@ -23,6 +27,19 @@ const Layout = ({ children }) => {
               <form className='ml-auto' onSubmit={(e) => {e.preventDefault(); post('/logout')}}>
                 <button className='text-white font-bold bg-gray-600 py-1 px-4 rounded-full italic hover:cursor-pointer hover:scale-105'>LOG OUT</button>
               </form>
+
+              <div 
+                className='w-6 h-6 rounded-full border'
+                onMouseOver={activateMenu}
+              >
+                <div className={`absolute w-35 h-60 bg-gray-900 top-17 right-10 rounded-xl`}>
+
+                </div>
+              </div>
+
+              
+
+              <span>{user.name}</span>
             </>
           ) : (
             <Link className='text-xs text-white font-bold bg-gray-600 py-1 px-4 rounded-full italic hover:cursor-pointer hover:scale-105 ml-auto' href='/login'>LOG IN</Link>
