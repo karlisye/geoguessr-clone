@@ -1,13 +1,11 @@
 import { Link, useForm, usePage } from '@inertiajs/react'
-import React from 'react'
+import React, { useState } from 'react'
 
 const Layout = ({ children }) => {
   const user = usePage().props.auth.user;
   const { post } = useForm();
 
-  const activateMenu = () => {
-
-  }
+  const [isActive, setIsActive] = useState(false);
 
   return (
     <>
@@ -24,16 +22,25 @@ const Layout = ({ children }) => {
 
               <Link className='text-slate-400' href='/scores'>LEADERBOARD</Link>
 
-              <form className='ml-auto' onSubmit={(e) => {e.preventDefault(); post('/logout')}}>
-                <button className='text-white font-bold bg-gray-600 py-1 px-4 rounded-full italic hover:cursor-pointer hover:scale-105'>LOG OUT</button>
-              </form>
-
               <div 
-                className='w-6 h-6 rounded-full border'
-                onMouseOver={activateMenu}
+                className='w-7 h-7 rounded-full border ml-auto'
+                onMouseOver={() => setIsActive(true)}
+                
               >
-                <div className={`absolute w-35 h-60 bg-gray-900 top-17 right-10 rounded-xl`}>
+                <div 
+                  className={`absolute w-45 bg-gray-900 right-10 rounded-xl overflow-hidden mt-10 flex flex-col
+                    ${isActive ? '' : 'h-0'}
+                  `}
+                  onMouseLeave={() => setIsActive(false)}
+                >
+                  <Link className='py-2 px-4 hover:bg-gray-800 w-full text-left'>PROFILE</Link>
+                  <Link className='py-2 px-4 hover:bg-gray-800 w-full text-left'>HISTORY</Link>
 
+                  <div className='w-full border border-gray-600'></div>
+
+                  <form onSubmit={(e) => {e.preventDefault(); post('/logout')}}>
+                    <button className='py-2 px-4 text-red-400 hover:cursor-pointer hover:bg-gray-800 w-full text-left'>SIGN OUT</button>
+                  </form>
                 </div>
               </div>
 
