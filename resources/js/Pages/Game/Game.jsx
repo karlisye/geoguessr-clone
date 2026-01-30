@@ -18,10 +18,17 @@ const Game = () => {
   const [guessLocation, setGuessLocation] = useState(null);
   const [isGuessing, setIsGuessing] = useState(true);
   const [locationIndex, setLocationIndex] = useState(0);
+  const [error, setError] = useState('');
 
   const [score, setScore] = useState(0);
 
   const handleGuess = () => {
+    if (!guessLocation) {
+      setError('Please Select a Location Before Guessing!');
+      setTimeout(() => setError(''), 3000);
+      return;
+    }
+
     const guessLatLon = calculateLatLon(guessLocation);
 
     const distance = calculateDistance(guessLatLon, locations[locationIndex]);
@@ -43,7 +50,7 @@ const Game = () => {
   }
 
   return (
-    <GameContext value={{guessLocation, setGuessLocation, handleGuess, handleContinue, locations, locationIndex, score}}>
+    <GameContext value={{guessLocation, setGuessLocation, handleGuess, handleContinue, locations, locationIndex, score, error}}>
       <div className='h-screen'>
         {isGuessing ? (
           <GuessView />

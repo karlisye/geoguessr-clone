@@ -4,7 +4,7 @@ import ActionButton from '../components/ActionButton'
 import { useGame } from '../Game'
 
 const GuessView = () => {
-  const { handleGuess, locations, locationIndex } = useGame();
+  const { handleGuess, locations, locationIndex, error } = useGame();
   return (
     <div className='h-full'>
       <img 
@@ -15,6 +15,8 @@ const GuessView = () => {
       <MiniMap />
 
       <ActionButton onClick={handleGuess} text='Guess' />
+
+      {error && <p className='absolute bottom-0 left-1/2 transform -translate-x-1/2 text-red-600 font-bold italic bg-red-100 rounded-lg px-4'>{error}</p>}
     </div>
   )
 }
