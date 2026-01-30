@@ -60,4 +60,11 @@ class ScoreController extends Controller
         $scores = Score::with("user")->where("user_id", $id)->orderBy("created_at", "desc")->get();
         return Inertia::render("History", ["scores" => $scores]);
     }
+
+    public function showShare ($user_id, $id)
+    {
+        $score = Score::with("user")->where("user_id", $user_id)->findOrFail($id);
+        
+        return Inertia::render("Score", ["score" => $score]);
+    }
 }
