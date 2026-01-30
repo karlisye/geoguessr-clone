@@ -14,7 +14,7 @@ const GuessView = () => {
 
       <MiniMap />
 
-      <ActionButton onClick={handleGuess} text='Guess' />
+      <ActionButton styles='bg-linear-to-b from-green-500 to-green-700' onClick={handleGuess} text='Guess' />
 
       {error && <p className='absolute bottom-0 left-1/2 transform -translate-x-1/2 text-red-600 font-bold italic bg-red-100 rounded-lg px-4'>{error}</p>}
     </div>

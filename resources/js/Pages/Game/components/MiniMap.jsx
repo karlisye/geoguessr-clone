@@ -114,7 +114,7 @@ const MiniMap = () => {
         {mapSize.w>=800 && (
           <>
             <span 
-              className='absolute top-0 right-0 border rounded-full m-4 w-5 h-5 text-sm flex justify-center items-center bg-white'
+              className='absolute top-0 right-0 text-white rounded-full m-4 w-5 h-5 text-sm flex justify-center items-center bg-slate-900'
               onMouseOver={() => setIsMsgActive(true)}
               onMouseLeave={() => setIsMsgActive(false)}
             >
@@ -140,9 +140,9 @@ const MiniMap = () => {
       </div>
     
       <div className='fixed bottom-0 right-0 m-4 flex gap-1'>
-        <button className='bg-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition' onClick={() => setScale(prev => Math.min(prev+0.2, 5))}>+</button>
-        <button className='bg-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition' onClick={() => setScale(prev => Math.max(prev-0.2, 1))}>-</button>
-        <button className='bg-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition' onClick={reset}>Reset</button>
+        <button className='bg-slate-900 text-white font-bold hover:cursor-pointer py-2 px-4 rounded-md shadow-md hover:shadow-lg transition' onClick={() => setScale(prev => Math.min(prev+0.2, 5))}>+</button>
+        <button className='bg-slate-900 text-white font-bold hover:cursor-pointer py-2 px-4 rounded-md shadow-md hover:shadow-lg transition' onClick={() => setScale(prev => Math.max(prev-0.2, 1))}>-</button>
+        <button className='bg-slate-900 text-white font-bold hover:cursor-pointer py-2 px-4 rounded-md shadow-md hover:shadow-lg transition italic text-sm' onClick={reset}>RESET</button>
       </div>
 
     </div>

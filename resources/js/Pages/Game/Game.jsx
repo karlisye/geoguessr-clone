@@ -51,7 +51,7 @@ const Game = () => {
 
   return (
     <GameContext value={{guessLocation, setGuessLocation, handleGuess, handleContinue, locations, locationIndex, score, error}}>
-      <div className='h-screen'>
+      <div className='h-screen bg-indigo-950'>
         {isGuessing ? (
           <GuessView />
         ) : (
