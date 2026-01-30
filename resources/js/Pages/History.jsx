@@ -95,13 +95,13 @@ const History = ({ scores }) => {
           
           <div className='px-4'>
             <div className='flex items-center gap-2'>
-              <p 
-                type="text" 
+              <a
                 className={`bg-slate-900 p-2 rounded-lg flex-1 text-center text-slate-400 outline-1 hover:underline hover:cursor-pointer
                   ${isCopied ? 'outline-green-600' : 'outline-indigo-800'}
                 `}
-                onClick={() => router.get(`http://localhost/scores/${currScore.user.id}/${currScore.id}`)}
-              >{`http://localhost/scores/${currScore.user.id}/${currScore.id}`}</p>
+                target='_blank'
+                href={`http://localhost/scores/${currScore.user.id}/${currScore.id}`}
+              >{`http://localhost/scores/${currScore.user.id}/${currScore.id}`}</a>
 
               <button 
                 className={`hover:cursor-pointer ${isCopied ? 'text-green-600 hover:text-green-700' : 'text-slate-200 hover:text-slate-400'}`}
