@@ -107,7 +107,7 @@ const MiniMap = () => {
             transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`
           }}
         >
-          <img className='pointer-events-none' src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/World_location_map_%28equirectangular_180%29.svg/2560px-World_location_map_%28equirectangular_180%29.svg.png" />
+          <img className='pointer-events-none' src="images/maps/map.png" />
           {guessLocation && <Marker location={guessLocation} />}
         </div>
 

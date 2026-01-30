@@ -20,6 +20,9 @@ const Game = () => {
   const [locationIndex, setLocationIndex] = useState(0);
   const [error, setError] = useState('');
 
+  const [roundScore, setRoundScore] = useState(0);
+  const [roundDistance, setRoundDistance] = useState(0);
+
   const [score, setScore] = useState(0);
 
   const handleGuess = () => {
@@ -32,9 +35,11 @@ const Game = () => {
     const guessLatLon = calculateLatLon(guessLocation);
 
     const distance = calculateDistance(guessLatLon, locations[locationIndex]);
+    setRoundDistance(distance);
 
-    const roundScore = calcuateScore(distance);
-    setScore(prev => prev + roundScore);
+    const currScore = calcuateScore(distance);
+    setRoundScore(currScore);
+    setScore(prev => prev + currScore);
     setIsGuessing(false);
   }
 
@@ -50,7 +55,7 @@ const Game = () => {
   }
 
   return (
-    <GameContext value={{guessLocation, setGuessLocation, handleGuess, handleContinue, locations, locationIndex, score, error}}>
+    <GameContext value={{guessLocation, setGuessLocation, handleGuess, handleContinue, locations, locationIndex, score, error, roundScore, roundDistance }}>
       <div className='h-screen bg-indigo-950'>
         {isGuessing ? (
           <GuessView />
