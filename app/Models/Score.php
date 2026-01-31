@@ -8,7 +8,12 @@ class Score extends Model
 {
     protected $fillable = [
         'user_id',
-        'score'
+        'score',
+        'round_data'
+    ];
+
+    protected $casts = [
+        'round_data' => 'array'
     ];
 
     public function user()

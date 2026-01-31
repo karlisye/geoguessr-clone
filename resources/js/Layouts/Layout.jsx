@@ -54,7 +54,7 @@ const Layout = ({ children }) => {
         </nav>
       </header>
 
-      <main className='h-screen bg-indigo-950 text-white'>
+      <main className='h-screen bg-indigo-950 text-white overflow-y-auto'>
         {children}
       </main>
     </>

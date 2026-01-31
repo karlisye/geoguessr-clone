@@ -43,8 +43,8 @@ const Game = () => {
   }
 
   const handleContinue = () => {
-    if (round === 1) {
-      router.post('/score', { score: score, roundData: roundData });
+    if (round === 5) {
+      router.post('/score', { score: score, round_data: roundData });
       return;
     }
 

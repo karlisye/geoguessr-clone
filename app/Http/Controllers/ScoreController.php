@@ -9,20 +9,19 @@ use Inertia\Inertia;
 
 class ScoreController extends Controller
 {
-    public function store (Request $request)
+    public function store(Request $request)
     {
         $incomingFields = $request->validate([
-            'score' => ['required']
+            'score' => ['required'],
+            'round_data' => ['required', 'array']
         ]);
         $incomingFields['user_id'] = auth()->id();
 
-        Score::create($incomingFields);
+        $score = Score::create($incomingFields);
 
-        return Inertia::render('Game/views/FinishView', [
-            'roundData' => $request['roundData'],
-            'score' => $incomingFields["score"]
-        ]);
+        return redirect("/finish/{$score->id}");
     }
+
 
     public function show (Request $request) {
         $incomingFields = $request->validate([
