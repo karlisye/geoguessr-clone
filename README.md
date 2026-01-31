@@ -26,11 +26,11 @@ This application is made without the use of APIs, the calculations are done usin
 *Main gameplay screen after a guess*
 
 ### Results Screen
-![Results](screenshots/finish_view.png)
+![Results](screenshots/finish_screen.png)
 *Final score breakdown with round-by-round statistics*
 
 ### Leaderboard
-![Leaderboard](screenshots/leaderboard.png)
+![Leaderboard](screenshots/leaderbaord.png)
 *Compare your scores with other players*
 
 ## Sharing
