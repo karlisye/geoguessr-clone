@@ -9,7 +9,7 @@ const GuessView = () => {
     <div className='h-full'>
       <img 
         className='h-full w-full absolute object-cover'
-        src={locations[locationIndex].url}
+        src={`images/locations/${locations[locationIndex]?.url}`}
       />
 
       <MiniMap />

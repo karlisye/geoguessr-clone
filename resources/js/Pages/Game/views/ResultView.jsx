@@ -7,7 +7,7 @@ import ActionButton from '../components/ActionButton';
 import ResultDescription from '../components/ResultDescription';
 
 const ResultView = () => {
-  const { guessLocation, locations, locationIndex, handleContinue } = useGame();
+  const { guessLocation, locations, locationIndex, handleContinue, round } = useGame();
   const [realLocation, setRealLocation] = useState(null);
 
   const [isDragging, setIsDragging] = useState(false);
@@ -68,7 +68,7 @@ const ResultView = () => {
         <Line start={guessLocation} end={realLocation} />
       </div>
 
-      <ActionButton styles='bg-slate-600' onClick={handleContinue} text='Continue' color='blue' />
+      <ActionButton styles='bg-slate-600' onClick={handleContinue} text={round===5 ? 'Finish' : 'Continue'} color='blue' />
 
       <div className='fixed bottom-0 right-0 m-2 flex gap-2'>
         <button onClick={() => setScale(prev => Math.min(prev+0.2, 5))} className='py-1 px-3 bg-slate-900 text-white font-bold rounded-md text-xl hover:cursor-pointer'>+</button>
