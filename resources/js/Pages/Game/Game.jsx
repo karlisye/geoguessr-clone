@@ -14,6 +14,7 @@ const Game = () => {
   const [locationIndex, setLocationIndex] = useState(0);
   const [usedIndexes, setUsedIndexes] = useState([]);
   const [round, setRound] = useState(1);
+  const [roundData, setRoundData] = useState([]);
 
   const [error, setError] = useState('');
   const [locations, setLocations] = useState({});
@@ -42,8 +43,8 @@ const Game = () => {
   }
 
   const handleContinue = () => {
-    if (round === 5) {
-      router.post('/score', { score: score });
+    if (round === 1) {
+      router.post('/score', { score: score, roundData: roundData });
       return;
     }
 
@@ -75,7 +76,7 @@ const Game = () => {
   }, []);
 
   return (
-    <GameContext value={{guessLocation, setGuessLocation, handleGuess, handleContinue, locations, locationIndex, score, error, roundScore, roundDistance, round }}>
+    <GameContext value={{guessLocation, setGuessLocation, handleGuess, handleContinue, locations, locationIndex, score, error, roundScore, roundDistance, round, setRoundData, roundData }}>
       <div className='h-screen bg-indigo-950'>
         {isGuessing ? (
           <GuessView />

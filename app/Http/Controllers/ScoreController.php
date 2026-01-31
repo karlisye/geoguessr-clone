@@ -18,7 +18,10 @@ class ScoreController extends Controller
 
         Score::create($incomingFields);
 
-        return redirect('/scores');
+        return Inertia::render('Game/views/FinishView', [
+            'roundData' => $request['roundData'],
+            'score' => $incomingFields["score"]
+        ]);
     }
 
     public function show (Request $request) {
