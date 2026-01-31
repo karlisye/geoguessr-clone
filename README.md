@@ -20,6 +20,22 @@ This application is made without the use of APIs, the calculations are done usin
 ### Game View
 ![Game View](screenshots/game.png)
 *Main gameplay screen with location image and interactive map*
+![Game View](screenshots/game_map.png)
+*Main gameplay screen with active map*
+![Game View](screenshots/result_view.png)
+*Main gameplay screen after a guess*
+
+### Results Screen
+![Results](screenshots/finish_view.png)
+*Final score breakdown with round-by-round statistics*
+
+### Leaderboard
+![Leaderboard](screenshots/leaderboard.png)
+*Compare your scores with other players*
+
+## Sharing
+![Sharing](screenshots/share.png)
+*Share your score by creating a public link*
 
 ## Tech Stack
 
