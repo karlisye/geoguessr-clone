@@ -15,6 +15,12 @@ This application is made without the use of APIs, the calculations are done usin
   - Distance calculation and scoring system
   - Round-by-round score tracking
 
+## Screenshots
+
+### Game View
+![Game View](screenshots/game.png)
+*Main gameplay screen with location image and interactive map*
+
 ## Tech Stack
 
 **Frontend**
