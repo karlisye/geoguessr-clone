@@ -1,59 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# GeoGuessr Clone
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Geography game where players guess the location on the world map based on an image.
+This application is made without the use of APIs, the calculations are done using math manually.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Authorization** - User registration and login
+- **Leaderboard** - Compare scores with other players
+- **Player History** - View your past games
+- **Share Games** - Share your results with others
+- **Gameplay**
+  - Random location selection from 20+ world cities
+  - Interactive map-based guessing
+  - Distance calculation and scoring system
+  - Round-by-round score tracking
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Frontend**
+- React + Vite
+- Inertia.js
+- TailwindCSS v4
 
-## Learning Laravel
+**Backend**
+- Laravel
+- MySQL
+- Laravel Sail (Docker)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Prerequisites
+- Docker Desktop
+- Linux-based terminal (or WSL2 on Windows)
 
-## Laravel Sponsors
+### Setup
+1. Clone the repository
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+  - git clone https://github.com/karlisye/geoguessr-clone.git
+  - cd geoguessr-clone
 
-### Premium Partners
+2. Install dependencies
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+  - docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php85-composer:latest \
+    composer install --ignore-platform-reqs
 
-## Contributing
+  - docker run --rm \
+    -v "$(pwd):/app" \
+    -w /app \
+    node:22 \
+    npm install
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. Configure environment
 
-## Code of Conduct
+  - cp .env.example .env
+  - ./vendor/bin/sail php artisan key:generate
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Setup database
 
-## Security Vulnerabilities
+  - ./vendor/bin/sail up -d
+  - ./vendor/bin/sail php artisan migrate
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Run
 
-## License
+  - ./vendor/bin/sail npm run dev
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. Access application
+
+ - In your browser: http://localhost
+
+## Usage
+
+### Getting Started
+1. **Sign up** for a new account or **log in** if you already have one
+2. Click the **Play Now** button from the home page to start a new game
+
+### Playing the Game
+1. **View the location image** displayed on screen
+2. **Click on the map** (bottom right corner) where you think the location is
+3. **Submit your guess** to see:
+   - Distance from the actual location
+   - Points earned for accuracy
+4. **Complete 5 rounds** to finish the game
+
+### After the Game
+- View your **final score** and detailed round-by-round statistics
+- **Share your results** using the share button to generate a shareable link
+- Compare your performance on the **Leaderboard**
+
+### Additional Features
+- **Leaderboard**: Click the leaderboard button in the navigation bar to see top scores (try the sort function!)
+- **Game History**: Hover over your profile icon and select "History" to view all your past games
+- **Sign Out**: Access the sign out option from the profile dropdown menu
+
+### Scoring System
+Your score is calculated based on how close your guess is to the actual location. The closer you are, the more points you earn!
