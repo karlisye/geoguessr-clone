@@ -38,7 +38,6 @@ const History = ({ scores }) => {
             <tbody>
               {scores.map((score, index) => (
                 <tr className='border-b border-gray-600' key={score.id}>
-                  {/* <td className={`${index==0?'text-yellow-300':index==1?'text-gray-300':index==2?'text-orange-800':''} p-2`}>#{index+1}</td> */}
                   <td className='p-2 bg-slate-800'>#{index+1}</td>
                   <td className='p-2 bg-slate-800'>{score.score.toFixed()} pts</td>
                   <td className='p-2 bg-slate-800'>{new Date(score.created_at).toLocaleDateString([], {

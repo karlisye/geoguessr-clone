@@ -1,0 +1,22 @@
+[
+  { "name": "London", "lat": 51.5074, "lon": -0.1278, "url": "location1.png" },
+  { "name": "Paris", "lat": 48.8566, "lon": 2.3522, "url": "location2.png" },
+  { "name": "New York", "lat": 40.7128, "lon": -73.9352, "url": "location3.png" },
+  { "name": "Tokyo", "lat": 35.6762, "lon": 139.6503, "url": "location4.png" },
+  { "name": "Sydney", "lat": -33.8688, "lon": 151.2093, "url": "location5.png" },
+  { "name": "Dubai", "lat": 25.2048, "lon": 55.2708, "url": "location6.png" },
+  { "name": "Singapore", "lat": 1.3521, "lon": 103.8198, "url": "location7.png" },
+  { "name": "Rome", "lat": 41.9028, "lon": 12.4964, "url": "location8.png" },
+  { "name": "Barcelona", "lat": 41.3851, "lon": 2.1734, "url": "location9.png" },
+  { "name": "San Francisco", "lat": 37.7749, "lon": -122.4194, "url": "location10.png" },
+  { "name": "Hong Kong", "lat": 22.3193, "lon": 114.1694, "url": "location11.png" },
+  { "name": "Los Angeles", "lat": 34.0522, "lon": -118.2437, "url": "location12.png" },
+  { "name": "Berlin", "lat": 52.5200, "lon": 13.4050, "url": "location13.png" },
+  { "name": "Amsterdam", "lat": 52.3676, "lon": 4.9041, "url": "location14.png" },
+  { "name": "Mumbai", "lat": 19.0760, "lon": 72.8777, "url": "location15.png" },
+  { "name": "Seoul", "lat": 37.5665, "lon": 126.9780, "url": "location16.png" },
+  { "name": "Istanbul", "lat": 41.0082, "lon": 28.9784, "url": "location17.png" },
+  { "name": "Bangkok", "lat": 13.7563, "lon": 100.5018, "url": "location18.png" },
+  { "name": "Toronto", "lat": 43.6532, "lon": -79.3832, "url": "location19.png" },
+  { "name": "Rio de Janeiro", "lat": -22.9068, "lon": -43.1729, "url": "location20.png" }
+]
