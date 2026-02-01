@@ -118,5 +118,13 @@ This application is made without the use of APIs, the calculations are done usin
 - **Game History**: Hover over your profile icon and select "History" to view all your past games
 - **Sign Out**: Access the sign out option from the profile dropdown menu
 
+### Distance Calculation
+- The game uses an equirectangular projection map (Plate Carrée), where the horizontal axis maps longitude linearly and the vertical axis maps latitude linearly.
+- This map is rendered with a 2:1 aspect ratio, matching the standard 360° (longitude) by 180° (latitude) coverage.
+- When the user clicks the map, the marker position is converted into percentages (xPerc, yPerc) relative to the map container, so the same click maps correctly across different screen sizes.
+- Those percentages are then converted into longitude/latitude using the equirectangular mapping: lon = xPerc/100*360-180 and lat = 90-yPerc/100*180 (assuming yPct=0 is the top of the map).
+- Finally, the game computes the great-circle distance between (guessLat, guessLon) and (actualLat, actualLon) using the Haversine formula.
+- The exact implementation can be found in resources/js/Pages/Game/calculations/mapCalculations.js.
+
 ### Scoring System
-Your score is calculated based on how close your guess is to the actual location. The closer you are, the more points you earn!
+Your score is calculated based on how close your guess is to the actual location by using a formula score = 5000*Math.exp(-distance/2000). The closer you are, the closer you get to 5000 points!
